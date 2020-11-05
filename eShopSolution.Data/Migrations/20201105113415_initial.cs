@@ -71,7 +71,7 @@ namespace eShopSolution.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 11, 4, 22, 49, 34, 729, DateTimeKind.Local).AddTicks(988)),
+                    OrderDate = table.Column<DateTime>(nullable: false, defaultValue: new DateTime(2020, 11, 5, 18, 34, 15, 136, DateTimeKind.Local).AddTicks(7380)),
                     UserId = table.Column<Guid>(nullable: false),
                     ShipName = table.Column<string>(maxLength: 200, nullable: false),
                     ShipAddress = table.Column<string>(maxLength: 200, nullable: false),
