@@ -1,8 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using eShopSolution.Aplication.Catalog.Products;
 using eShopSolution.Aplication.Common;
 using eShopSolution.Application.Common;
 using eShopSolution.Application.System.Users;
@@ -15,7 +11,6 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -41,27 +36,25 @@ namespace eShopSolution.BackendApi
             services.AddDbContext<EShopDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString(SystemConstants.MainConnectionString)));
 
-            //Add services identity :AppUser, appRole, framework, eshop
             services.AddIdentity<AppUser, AppRole>()
                 .AddEntityFrameworkStores<EShopDbContext>()
                 .AddDefaultTokenProviders();
 
             //Declare DI
-            services.AddTransient<IPublicProductService , PublicProductService>();
-            services.AddTransient<IManageProductService , ManageProductService>();
-            services.AddTransient<IStorageService , FileStorageService >();
+            services.AddTransient<IStorageService, FileStorageService>();
+
+            //services.AddTransient<IProductService, ProductService>();
             services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
             services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
             services.AddTransient<IUserService, UserService>();
-            services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();
-            services.AddTransient<IValidator<RegisterRequest>, RegisterRequestValidator>();
+
+            //services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();
+            //services.AddTransient<IValidator<RegisterRequest>, RegisterRequestValidator>();
 
             services.AddControllers()
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>())
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<RegisterRequestValidator>());
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>());
 
-            //Swagger
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger eShop Solution", Version = "v1" });
@@ -94,7 +87,6 @@ namespace eShopSolution.BackendApi
                         new List<string>()
                       }
                     });
-
             });
 
             string issuer = Configuration.GetValue<string>("Tokens:Issuer");
@@ -124,8 +116,6 @@ namespace eShopSolution.BackendApi
             });
         }
 
-
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -141,13 +131,12 @@ namespace eShopSolution.BackendApi
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseAuthentication();
 
+            app.UseAuthentication();
             app.UseRouting();
 
             app.UseAuthorization();
 
-            //use swagger
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>
