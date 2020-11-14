@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using eShopSolution.AdminApp.Services;
+using eShopSolution.ViewModels.System.Users;
+using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -23,8 +27,25 @@ namespace eShopSolution.AdminApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            //add service http client
+            services.AddHttpClient();
 
+            //add authentication for app login
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = "/User/Login/";
+                    options.AccessDeniedPath = "/User/Forbidden/";
+                });
+
+
+            services.AddControllersWithViews()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>()); ;
+
+            //add user api client
+            services.AddTransient<IUserApiClient, UserApiClient>();
+
+            //Add service for assrazorpages
             IMvcBuilder builder = services.AddRazorPages();
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 #if DEBUG
@@ -50,6 +71,9 @@ namespace eShopSolution.AdminApp
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            //add service app userAuthentication
+            app.UseAuthentication();
 
             app.UseRouting();
 
