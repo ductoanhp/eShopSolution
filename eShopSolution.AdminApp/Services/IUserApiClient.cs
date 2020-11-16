@@ -11,6 +11,8 @@ namespace eShopSolution.AdminApp.Services
     {
         Task<string> Authenticate(LoginRequest request);
 
-        //Task<PagedResult<UserVm>> GetUsersPagings(GetUserPagingRequest request);
+        Task<PagedResult<UserVm>> GetUsersPagings(GetUserPagingRequest request);
+
+        Task<bool> RegisterUser(RegisterRequest registerRequest);
     }
 }

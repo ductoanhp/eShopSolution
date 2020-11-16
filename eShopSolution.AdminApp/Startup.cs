@@ -30,17 +30,25 @@ namespace eShopSolution.AdminApp
             //add service http client
             services.AddHttpClient();
 
+            
+
             //add authentication for app login
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
-                    options.LoginPath = "/User/Login/";
+                    options.LoginPath = "/Login/Index/";
                     options.AccessDeniedPath = "/User/Forbidden/";
                 });
 
 
             services.AddControllersWithViews()
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>()); ;
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>());
+
+            //add session
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+            });
 
             //add user api client
             services.AddTransient<IUserApiClient, UserApiClient>();
@@ -78,6 +86,9 @@ namespace eShopSolution.AdminApp
             app.UseRouting();
 
             app.UseAuthorization();
+
+            //add service aspnetcore session
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
