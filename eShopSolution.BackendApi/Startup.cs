@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using eShopSolution.Aplication.Catalog.Products;
-using eShopSolution.Aplication.Common;
+using eShopSolution.Application.Catalog.Products;
 using eShopSolution.Application.Common;
 using eShopSolution.Application.System.Users;
 using eShopSolution.Data.EF;
@@ -49,8 +47,7 @@ namespace eShopSolution.BackendApi
             //Declare DI
             services.AddTransient<IStorageService, FileStorageService>();
 
-            services.AddTransient<IPublicProductService , PublicProductService>();
-            services.AddTransient<IManageProductService , ManageProductService>();
+            services.AddTransient<IProductService , ProductService>();
             
             services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
