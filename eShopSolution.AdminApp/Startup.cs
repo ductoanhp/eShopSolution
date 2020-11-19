@@ -57,6 +57,9 @@ namespace eShopSolution.AdminApp
             // add product apit client
             services.AddTransient<IProductApiClient, ProductApiClient>();
 
+            //add category api client
+            services.AddTransient<ICategoryApiClient, CategoryApiClient>();
+
             //Add service for assrazorpages
             IMvcBuilder builder = services.AddRazorPages();
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");

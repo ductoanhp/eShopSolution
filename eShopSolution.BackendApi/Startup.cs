@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using eShopSolution.Application.Catalog.Categories;
 using eShopSolution.Application.Catalog.Products;
 using eShopSolution.Application.Common;
 using eShopSolution.Application.System.Languages;
@@ -56,6 +57,9 @@ namespace eShopSolution.BackendApi
 
             //add language service
             services.AddTransient<ILanguageService, LanguageService>();
+
+            //add categories service
+            services.AddTransient<ICategoryService, CategoryService>();
 
             //services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();
             //services.AddTransient<IValidator<RegisterRequest>, RegisterRequestValidator>();
