@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using eShopSolution.AdminApp.Models;
+using eShopSolution.Utilities.Constants;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using eShopSolution.AdminApp.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using eShopSolution.Utilities.Constants;
+using System.Diagnostics;
 
 namespace eShopSolution.AdminApp.Controllers
 {
