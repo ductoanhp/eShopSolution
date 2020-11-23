@@ -92,6 +92,22 @@ namespace eShopSolution.AdminApp.Services
             return response.IsSuccessStatusCode;
         }
 
+        //delect product
+        public async Task<ApiResult<bool>> DeleteProduct(int id)
+        {
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var response = await client.DeleteAsync($"/api/products/{id}");
+            var body = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
+
+            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
+        }
+
         public async Task<ProductVm> GetById(int id, string languageId)
         {
             var data = await GetAsync<ProductVm>($"/api/products/{id}/{languageId}");
